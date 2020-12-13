@@ -16,9 +16,8 @@ author:              Eric Jelliffe
 build-type:          Simple
 extra-source-files:  CHANGELOG.md
 
-executable aoc2020
-  main-is:             Main.hs
-  other-modules:       Day04
+executable Day04
+  main-is:             Day04.hs
   -- other-extensions:
   build-depends:       containers, parsec, base >=4.12 && <4.13
   -- hs-source-dirs:
