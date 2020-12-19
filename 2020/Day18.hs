@@ -4,17 +4,24 @@ import           Text.Parsec
 import           Text.Parsec.Expr
 import           Text.Parsec.Token
 import           Text.Parsec.Language           ( haskellStyle )
+import           Data.Functor.Identity
 
+lexer :: GenTokenParser String u Identity
 lexer = makeTokenParser haskellStyle
 
+expr :: ParsecT String u Identity Integer
 expr = buildExpressionParser tablePt2 term <?> "expression"
 
+term :: ParsecT String u Identity Integer
 term = parens lexer expr <|> natural lexer <?> "simple expression"
 
-table = [[binary "*" (*) AssocLeft, binary "+" (+) AssocLeft]]
+tablePt1 :: [[Operator String u Identity Integer]]
+tablePt1 = [[binary "*" (*) AssocLeft, binary "+" (+) AssocLeft]]
 
+tablePt2 :: [[Operator String u Identity Integer]]
 tablePt2 = [[binary "+" (+) AssocLeft], [binary "*" (*) AssocLeft]]
 
+binary :: String -> (a -> a -> a) -> Assoc -> Operator String u Identity a
 binary name fun assoc = Infix
   (do
     reservedOp lexer name
@@ -22,6 +29,7 @@ binary name fun assoc = Infix
   )
   assoc
 
+parseExp :: String -> Either ParseError Integer
 parseExp = parse expr ""
 
 f :: [Either a Integer] -> Integer
