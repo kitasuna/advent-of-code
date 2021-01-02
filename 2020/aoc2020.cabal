@@ -21,6 +21,11 @@ executable Day01
   build-depends:       containers, parsec, base >=4.12 && <4.13
   default-language:    Haskell2010
 
+executable Day02
+  main-is:             Day02.hs
+  build-depends:       parsec, base >=4.12 && <4.13
+  default-language:    Haskell2010
+
 executable Day04
   main-is:             Day04.hs
   build-depends:       containers, parsec, base >=4.12 && <4.13
