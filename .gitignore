@@ -26,3 +26,4 @@ cabal.project.local~
 debug/
 target/
 Cargo.lock
+*.input
