@@ -37,3 +37,66 @@ pub fn part1(xs: Vec<isize>) -> i32 {
 
     return gamma * (gamma ^ 0b111111111111);
 }
+
+pub fn part2(xs: Vec<isize>) -> isize {
+    let bit_count = 12;
+    let mut o2_filtered = xs.clone();
+    let mut co2_filtered = xs.clone();
+    for bit in 0..bit_count {
+        // (ZeroCount, OneCount)
+        let mut counts: (i32, i32) = (0,0);
+        let mut with_ones = Vec::new();
+        let mut with_zeroes = Vec::new();
+
+        for (_i, h) in o2_filtered.iter().enumerate() {
+            if (*h & (1 << (bit_count - bit - 1))) > 0 {
+                counts.1 += 1;
+                with_ones.push(*h);
+            } else {
+                counts.0 += 1;
+                with_zeroes.push(*h);
+            }
+        }
+
+        if counts.1 >= counts.0 {
+            o2_filtered = with_ones;
+        } else {
+            o2_filtered = with_zeroes;
+        }
+    }
+
+    for bit in 0..bit_count {
+        // (ZeroCount, OneCount)
+        let mut counts: (i32, i32) = (0,0);
+        let mut with_ones = Vec::new();
+        let mut with_zeroes = Vec::new();
+
+        for (_i, h) in co2_filtered.iter().enumerate() {
+            if (*h & (1 << (bit_count - bit - 1))) > 0 {
+                counts.1 += 1;
+                with_ones.push(*h);
+            } else {
+                counts.0 += 1;
+                with_zeroes.push(*h);
+            }
+        }
+
+        if counts.0 <= counts.1 {
+            co2_filtered = with_zeroes;
+        } else {
+            co2_filtered = with_ones;
+        }
+
+        if co2_filtered.len() == 1 {
+            break;
+        }
+    }
+
+    match o2_filtered.first() {
+        Some(x) => match co2_filtered.first() {
+            Some(y) => x * y,
+            None => 0
+        },
+        None => 0
+    }
+}

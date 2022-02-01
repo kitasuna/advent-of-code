@@ -36,6 +36,12 @@ fn main() {
         Err(e) => panic!("couldn't open file{}", e),
     };
     println!("Day 3_1: {:?}", day3_1_ans);
+
+    let day3_2_ans = match read_lines("./input/Day03.input") {
+        Ok(lines) => day03::part2(day03::convert(lines)),
+        Err(e) => panic!("couldn't open file{}", e),
+    };
+    println!("Day 3_2: {:?}", day3_2_ans);
 }
 
 
